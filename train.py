@@ -51,14 +51,14 @@ def main():
     df["text"] = df["text"].fillna("")
     df = df[(df["title"] + df["text"]).str.strip() != ""]
     df = df.drop_duplicates(subset=["title", "text"])
-    print("After cleaning rows:", df.shape)
+    print("Rows after cleaning:", df.shape)
     print("Label counts:\n", df["label"].value_counts())
 
     for lab in sorted(df["label"].unique()):
         print(f"\nSample titles for label {lab}:")
         print(df[df["label"] == lab]["title"].head(3).to_string(index=False))
 
-    print("\nCleaning text (3-8 min lag sakte hain, ruko)...")
+    print("\nCleaning text (this can take 3-8 minutes)...")
     df["content"] = (df["title"] + " " + df["text"]).map(clean)
 
     X_train, X_test, y_train, y_test = train_test_split(
